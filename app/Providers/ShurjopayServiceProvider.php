@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use ShurjopayPlugin\Shurjopay;
+use ShurjopayPlugin\ShurjopayConfig;
+
+class ShurjopayServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        $this->app->singleton(Shurjopay::class, function ($app) {
+            return new Shurjopay($this->getShurjopayConfig());
+        });
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+
+    private function getShurjopayConfig(): ShurjopayConfig
+    {
+        $conf = new ShurjopayConfig();
+        $conf->username = env('SP_USERNAME');
+        $conf->password = env('SP_PASSWORD');
+        $conf->api_endpoint = env('SHURJOPAY_API');
+        $conf->callback_url = env('SP_CALLBACK');
+        $conf->log_path = storage_path(env('SP_LOG_LOCATION', 'logs'));
+        $conf->order_prefix = env('SP_PREFIX');
+        $conf->ssl_verifypeer = env('CURLOPT_SSL_VERIFYPEER', 1);
+        return $conf;
+    }
+}
