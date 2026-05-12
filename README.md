@@ -105,5 +105,5 @@ The integration includes two blade templates in `resources/views/shurjopay/`:
 ---
 Developed for shurjoPay Demo Integration.
 
-** Modified by
+* Modified by
 > Saikat Mahmud
